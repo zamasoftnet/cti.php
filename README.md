@@ -48,13 +48,16 @@ $session->start_main('./output.pdf');
 
 ## ライセンス
 
-Copyright (c) 2011-2024 Zamasoft.
+Copyright (c) 2011-2025 Zamasoft.
 
 Apache License Version 2.0 に基づいてライセンスされます。
 
 詳細は [LICENSE](LICENSE) ファイルを参照してください。
 
 ## 変更履歴
+
+### v2.2.0 (2025/12/30)
+- Composer対応
 
 ### v2.1.4 (2021/11/15)
 - 'Only variables should be passed by reference' 警告が出ないように対応
