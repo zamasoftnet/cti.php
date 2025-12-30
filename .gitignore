@@ -1,0 +1,6 @@
+/vendor/
+/local/
+/build/
+composer.lock
+PUBLISH_MEMO.md
+src/test/out/
