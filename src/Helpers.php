@@ -9,6 +9,7 @@
  * @package CTI
  * @subpackage Helpers
  */
+
 /**
  * パケットの送信に使うバッファのサイズです。
  * 
@@ -19,8 +20,8 @@ define ('CTI_BUFFER_SIZE', 1024);
 /**
  * 32ビット数値をビッグインディアンで書き出します。
  * 
- * @param $fp resource ストリーム
- * @param $a int 数値
+ * @param resource $fp ストリーム
+ * @param int $a 数値
  * @return mixed 書き込んだバイト数
  * @access public
  */
@@ -32,8 +33,8 @@ function cti_utils_write_int(&$fp, $a) {
 /**
  * 64ビット数値をビッグインディアンで書き出します。
  * 
- * @param $fp resource ストリーム
- * @param $a long 数値
+ * @param resource $fp ストリーム
+ * @param int $a 数値
  * @return mixed 書き込んだバイト数
  * @access public
  */
@@ -45,8 +46,8 @@ function cti_utils_write_long(&$fp, $a) {
 /**
  * 8ビット数値を書き出します。
  * 
- * @param $fp resource ストリーム
- * @param $a byte 数値
+ * @param resource $fp ストリーム
+ * @param int $b 数値
  * @return mixed 書き込んだバイト数
  * @access public
  */
@@ -58,8 +59,8 @@ function cti_utils_write_byte(&$fp, $b) {
 /**
  * バイト数を16ビットビッグインディアンで書き出した後、バイト列を書き出します。
  * 
- * @param $fp resource ストリーム
- * @param $b string バイト列
+ * @param resource $fp ストリーム
+ * @param string $b バイト列
  * @return mixed 書き込んだバイト数
  * @access public
  */
@@ -72,8 +73,8 @@ function cti_utils_write_bytes(&$fp, &$b) {
 /**
  * バイト列を書き出します。
  * 
- * @param $fp resource ストリーム
- * @param $data string バイト列
+ * @param resource $fp ストリーム
+ * @param string $data バイト列
  * @return mixed 書き込んだバイト数
  * @access private
  */
@@ -93,7 +94,7 @@ function _cti_write(&$fp, &$data) {
 /**
  * 16ビットビッグインディアン数値を読み込みます。
  * 
- * @param $fp resource ストリーム
+ * @param resource $fp ストリーム
  * @return mixed 数値、エラーであればfalse
  * @access public
  */
@@ -106,7 +107,7 @@ function cti_utils_read_short(&$fp) {
 /**
  * 32ビットビッグインディアン数値を読み込みます。
  * 
- * @param $fp resource ストリーム
+ * @param resource $fp ストリーム
  * @return mixed 数値、エラーであればfalse
  * @access public
  */
@@ -119,7 +120,7 @@ function cti_utils_read_int(&$fp) {
 /**
  * 64ビットビッグインディアン数値を読み込みます。
  * 
- * @param $fp resource ストリーム
+ * @param resource $fp ストリーム
  * @return mixed 数値、エラーであればfalse
  * @access public
  */
@@ -131,13 +132,13 @@ function cti_utils_read_long(&$fp) {
   $a = unpack('Nint', $b);
   $l = $a['int'];
   if ($h >> 31 != 0) {
-  	$h ^= 0xFFFFFFFF;
-  	$l ^= 0xFFFFFFFF;
-  	$b = ($h << 32) | $l; 
-  	$b = -($b + 1);
+    $h ^= 0xFFFFFFFF;
+    $l ^= 0xFFFFFFFF;
+    $b = ($h << 32) | $l; 
+    $b = -($b + 1);
   }
   else {
-  	$b = ($h << 32) | $l; 
+    $b = ($h << 32) | $l; 
   }
   return $b;
 }
@@ -145,7 +146,7 @@ function cti_utils_read_long(&$fp) {
 /**
  * 8ビット数値を読み込みます。
  * 
- * @param $fp resource ストリーム
+ * @param resource $fp ストリーム
  * @return mixed 数値、エラーであればfalse
  * @access public
  */
@@ -157,7 +158,7 @@ function cti_utils_read_byte(&$fp) {
 /**
  * 16ビットビッグインディアン数値を読み込み、そのバイト数だけバイト列を読み込みます。
  * 
- * @param $fp resource ストリーム
+ * @param resource $fp ストリーム
  * @return mixed バイト列、エラーであればfalse
  * @access public
  */
@@ -172,8 +173,8 @@ function &cti_utils_read_bytes(&$fp) {
 /**
  * バイト列を読み込みます。
  * 
- * @param $fp resource ストリーム
- * @param $len int 要求されるバイト数
+ * @param resource $fp ストリーム
+ * @param int $len 要求されるバイト数
  * @return mixed バイト列、エラーであればfalse
  * @access private
  */
@@ -192,5 +193,3 @@ function &_cti_read(&$fp, $len) {
   }
   return $result;
 }
-
-?>

@@ -24,11 +24,13 @@
         "phpdocumentor/phpdocumentor": "^3"
     },
     "autoload": {
-        "classmap": [
-            "src/CTI/"
-        ],
+        "psr-4": {
+            "CTI\\": "src/CTI/"
+        },
         "files": [
-            "src/CTI/DriverManager.php"
+            "src/Helpers.php",
+            "src/CTIP2.php",
+            "src/DriverManager.php"
         ]
     },
     "config": {

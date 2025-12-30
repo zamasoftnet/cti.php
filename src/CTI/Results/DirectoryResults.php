@@ -1,7 +1,11 @@
 <?php
-require_once('Results.class.php');
-require_once(dirname(__FILE__).'/../Builder/FileBuilder.class.php');
+namespace CTI\Results;
 
+use CTI\Builder\FileBuilder;
+
+/**
+ * ディレクトリに複数の結果を出力するResultsの実装です。
+ */
 class DirectoryResults implements Results {
   private $dir;
   private $prefix;
@@ -25,4 +29,3 @@ class DirectoryResults implements Results {
     return $builder;
   }
 }
-?>

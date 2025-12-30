@@ -8,11 +8,6 @@
  * @subpackage CTIP2
  */
 
-/**
- * ユーティリティです。
- */
-require_once ('Helpers.php');
-
 define ('CTI_CTIP_REQ_PROPERTY', 0x01);
 define ('CTI_CTIP_REQ_START_MAIN', 0x02);
 define ('CTI_CTIP_REQ_SERVER_MAIN', 0x03);
@@ -71,22 +66,22 @@ define ('CTI_CTIP_SEGMENT_SIZE', 8192);
 /**
  * セッションを開始します。
  * 
- * @param $fp resource ストリーム
- * @param $encoding string 通信に用いるエンコーディング
+ * @param resource $fp ストリーム
+ * @param string $encoding 通信に用いるエンコーディング
  * @access public
  */
 function cti_ctip_connect(&$fp, $encoding) {
   $err = fwrite($fp, "CTIP/2.0 $encoding\n");
   if ($err === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * サーバー情報を要求します。
  * 
- * @param $fp resource ストリーム
- * @param $uri string URI
+ * @param resource $fp ストリーム
+ * @param string $uri URI
  */
 function cti_ctip_req_server_info(&$fp, $uri) {
   $payload = 1 + 2 + strlen($uri);
@@ -94,15 +89,15 @@ function cti_ctip_req_server_info(&$fp, $uri) {
   cti_utils_write_byte($fp, CTI_CTIP_REQ_SERVER_INFO);
   cti_utils_write_bytes($fp, $uri);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * サーバーからクライアントのリソースを要求するモードを切り替えます。
  * 
- * @param $fp resource ストリーム
- * @param $mode int 0=off, 1=on
+ * @param resource $fp ストリーム
+ * @param int $mode 0=off, 1=on
  */
 function cti_ctip_req_client_resource(&$fp, $mode) {
   $payload = 2;
@@ -110,15 +105,15 @@ function cti_ctip_req_client_resource(&$fp, $mode) {
   cti_utils_write_byte($fp, CTI_CTIP_REQ_CLIENT_RESOURCE);
   cti_utils_write_byte($fp, $mode);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * 複数の結果を結合するモードを切り替えます。
  * 
- * @param $fp resource ストリーム
- * @param $mode int 0=off, 1=on
+ * @param resource $fp ストリーム
+ * @param int $mode 0=off, 1=on
  */
 function cti_ctip_req_continuous(&$fp, $mode) {
   $payload = 2;
@@ -126,15 +121,15 @@ function cti_ctip_req_continuous(&$fp, $mode) {
   cti_utils_write_byte($fp, CTI_CTIP_REQ_CONTINUOUS);
   cti_utils_write_byte($fp, $mode);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * リソースの不存在を通知します。
  * 
- * @param $fp resource ストリーム
- * @param $uri string URI
+ * @param resource $fp ストリーム
+ * @param string $uri URI
  */
 function cti_ctip_req_missing_resource(&$fp, $uri) {
   $payload = 1 + 2 + strlen($uri);
@@ -142,29 +137,29 @@ function cti_ctip_req_missing_resource(&$fp, $uri) {
   cti_utils_write_byte($fp, CTI_CTIP_REQ_MISSING_RESOURCE);
   cti_utils_write_bytes($fp, $uri);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * 状態のリセットを要求します。
  * 
- * @param $fp resource ストリーム
+ * @param resource $fp ストリーム
  */
 function cti_ctip_req_reset(&$fp) {
   $payload = 1;
   cti_utils_write_int($fp, $payload);
   cti_utils_write_byte($fp, CTI_CTIP_REQ_RESET);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * 変換処理の中断を要求します。
  * 
- * @param $fp resource ストリーム
- * @param $mode int  0=生成済みのデータを出力して中断, 1=即時中断
+ * @param resource $fp ストリーム
+ * @param int $mode 0=生成済みのデータを出力して中断, 1=即時中断
  */
 function cti_ctip_req_abort(&$fp, $mode) {
   $payload = 2;
@@ -172,28 +167,28 @@ function cti_ctip_req_abort(&$fp, $mode) {
   cti_utils_write_byte($fp, CTI_CTIP_REQ_ABORT);
   cti_utils_write_byte($fp, $mode);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * 変換結果を結合します。
  * 
- * @param $fp resource ストリーム
+ * @param resource $fp ストリーム
  */
 function cti_ctip_req_join(&$fp) {
   $payload = 1;
   cti_utils_write_int($fp, $payload);
   cti_utils_write_byte($fp, CTI_CTIP_REQ_JOIN);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * 終了を通知します。
  * 
- * @param $fp resource ストリーム
+ * @param resource $fp ストリーム
  * @access public
  */
 function cti_ctip_req_eof(&$fp) {
@@ -201,16 +196,16 @@ function cti_ctip_req_eof(&$fp) {
   cti_utils_write_int($fp, $payload);
   cti_utils_write_byte($fp, CTI_CTIP_REQ_EOF);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * プロパティを送ります。
  * 
- * @param $fp resource ストリーム
- * @param $name string 名前
- * @param $value string 値
+ * @param resource $fp ストリーム
+ * @param string $name 名前
+ * @param string $value 値
  * @access public
  */
 function cti_ctip_req_property(&$fp, $name, $value) {
@@ -220,15 +215,15 @@ function cti_ctip_req_property(&$fp, $name, $value) {
   cti_utils_write_bytes($fp, $name);
   cti_utils_write_bytes($fp, $value);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * サーバー側データの変換を要求します。
  * 
- * @param $fp resource ストリーム
- * @param $uri string URI
+ * @param resource $fp ストリーム
+ * @param string $uri URI
  */
 function cti_ctip_req_server_main(&$fp, $uri) {
   $payload = strlen($uri) + 3;
@@ -236,17 +231,18 @@ function cti_ctip_req_server_main(&$fp, $uri) {
   cti_utils_write_byte($fp, CTI_CTIP_REQ_SERVER_MAIN);
   cti_utils_write_bytes($fp, $uri);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * リソースの開始を通知します。
  * 
- * @param $fp resource ストリーム
- * @param $uri string URI
- * @param $mimeType string MIME型
- * @param $encoding string エンコーディング
+ * @param resource $fp ストリーム
+ * @param string $uri URI
+ * @param string $mimeType MIME型
+ * @param string $encoding エンコーディング
+ * @param int $length 長さ
  * @access public
  */
 function cti_ctip_req_resource(&$fp, $uri, $mimeType = 'text/css', $encoding = '', $length = -1) {
@@ -258,17 +254,18 @@ function cti_ctip_req_resource(&$fp, $uri, $mimeType = 'text/css', $encoding = '
   cti_utils_write_bytes($fp, $encoding);
   cti_utils_write_long($fp, $length);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * 本体の開始を通知します。
  * 
- * @param $fp resource ストリーム
- * @param $uri string URI
- * @param $mimeType string MIME型
- * @param $encoding string エンコーディング
+ * @param resource $fp ストリーム
+ * @param string $uri URI
+ * @param string $mimeType MIME型
+ * @param string $encoding エンコーディング
+ * @param int $length 長さ
  * @access public
  */
 function cti_ctip_req_start_main(&$fp, $uri, $mimeType = 'text/html', $encoding = '', $length = -1) {
@@ -280,16 +277,16 @@ function cti_ctip_req_start_main(&$fp, $uri, $mimeType = 'text/html', $encoding 
   cti_utils_write_bytes($fp, $encoding);
   cti_utils_write_long($fp, $length);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * データを送ります。
  * 
- * @param $fp resource ストリーム
- * @param $b string データ
- * @param $len int データの長さ
+ * @param resource $fp ストリーム
+ * @param string $b データ
+ * @param int $len データの長さ
  * @access public
  */
 function cti_ctip_req_write(&$fp, &$b, $len = -1) {
@@ -306,21 +303,21 @@ function cti_ctip_req_write(&$fp, &$b, $len = -1) {
     throw new Exception('IO Error');
   }
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
 /**
  * 通信を終了します。
  * 
- * @param $fp resource ストリーム
+ * @param resource $fp ストリーム
  */
 function cti_ctip_req_close(&$fp) {
   $payload = 1;
   cti_utils_write_int($fp, $payload);
   cti_utils_write_byte($fp, CTI_CTIP_REQ_CLOSE);
   if (fflush($fp) === false) {
-  	throw new Exception('I/O Error');
+    throw new Exception('I/O Error');
   }
 }
 
@@ -337,7 +334,7 @@ function cti_ctip_req_close(&$fp) {
  * - 'progress' 処理済バイト数
  * - 'bytes' データのバイト列
  * 
- * @param $fp resource ストリーム
+ * @param resource $fp ストリーム
  * @return array レスポンス
  * @access public
  */
@@ -451,4 +448,3 @@ function cti_ctip_res_next(&$fp) {
       throw new Exception("Bad response type:$type");
   }
 }
-?>

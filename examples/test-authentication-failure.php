@@ -1,5 +1,5 @@
 <?php
-require_once ('../code/CTI/DriverManager.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 //セッションの開始
 try {

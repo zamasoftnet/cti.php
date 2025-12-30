@@ -1,7 +1,11 @@
 <?php
-require_once('Results.class.php');
-require_once(dirname(__FILE__).'/../Builder/NullBuilder.class.php');
+namespace CTI\Results;
 
+use CTI\Builder\NullBuilder;
+
+/**
+ * 単一の結果を返すResultsの実装です。
+ */
 class SingleResult implements Results {
   private $builder;
   
@@ -18,4 +22,3 @@ class SingleResult implements Results {
     return $builder;
   }
 }
-?>
