@@ -27,19 +27,19 @@ jobs:
           php-version: '8.2'
           extensions: intl, mbstring
 
-      - name: Install dependencies
-        run: composer install --ignore-platform-reqs --no-interaction
+      - name: Download phpDocumentor
+        run: |
+          wget https://phpdoc.org/phpDocumentor.phar -O phpDocumentor.phar
+          chmod +x phpDocumentor.phar
 
       - name: Generate documentation
         run: |
           mkdir -p build/php/apidoc
-          vendor/bin/phpdoc \
+          php phpDocumentor.phar \
             --title "CTI Driver for PHP" \
             --target "build/php/apidoc" \
             --directory "src/CTI" \
-            --defaultpackagename "driver" \
-            --cache-folder "build/cache" \
-            --force
+            --defaultpackagename "driver"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
