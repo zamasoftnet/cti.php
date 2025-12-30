@@ -37,7 +37,9 @@ jobs:
             --title "CTI Driver for PHP" \
             --target "build/php/apidoc" \
             --directory "src/CTI" \
-            --defaultpackagename "driver"
+            --defaultpackagename "driver" \
+            --cache-folder "build/cache" \
+            --force
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
