@@ -5,9 +5,7 @@
         xmlns="https://www.phpdoc.org"
         xsi:noNamespaceSchemaLocation="https://docs.phpdoc.org/latest/phpdoc.xsd"
 >
-    <paths>
-        <cache>local/cache</cache>
-    </paths>
+
     <version number="3.0.0">
         <api>
             <default-package-name>driver</default-package-name>
