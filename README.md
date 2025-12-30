@@ -9,12 +9,12 @@
 ### Composer（推奨）
 
 ```bash
-composer require zamasoft/cti-php
+composer require mimidesunya/cti.php
 ```
 
 ### 手動インストール
 
-`src/code/` ディレクトリをプロジェクトにコピーし、`require_once` で読み込んでください。
+`src/CTI/` ディレクトリをプロジェクトにコピーし、`require_once` で読み込んでください。
 
 ```php
 require_once 'path/to/CTI/DriverManager.php';
@@ -43,7 +43,7 @@ $session->start_main('./output.pdf');
 
 ## ドキュメント
 
-- [APIドキュメント](https://zamasoft.github.io/cti-php/)
+- [APIドキュメント](https://mimidesunya.github.io/cti.php/)
 - [オンラインマニュアル](http://dl.cssj.jp/docs/copper/3.0/html/3422_ctip2_php.html)
 
 ## ライセンス

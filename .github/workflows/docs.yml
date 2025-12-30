@@ -37,7 +37,7 @@ jobs:
             --title "CTI Driver for PHP" \
             -c phpdoc.xml \
             -t build/php/apidoc \
-            -d src/code
+            -d src/CTI
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
