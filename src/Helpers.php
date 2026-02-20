@@ -31,6 +31,19 @@ function cti_utils_write_int(&$fp, $a) {
 }
 
 /**
+ * 16ビット数値をビッグインディアンで書き出します。
+ * 
+ * @param resource $fp ストリーム
+ * @param int $a 数値
+ * @return mixed 書き込んだバイト数
+ * @access public
+ */
+function cti_utils_write_short(&$fp, $a) {
+  $data = pack('n', $a);
+  return _cti_write($fp, $data);
+}
+
+/**
  * 64ビット数値をビッグインディアンで書き出します。
  * 
  * @param resource $fp ストリーム

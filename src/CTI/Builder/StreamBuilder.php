@@ -65,9 +65,9 @@ class StreamBuilder implements Builder {
     $this->frgs[$id] =& $frg;
     $frg->prev =& $anchor->prev;
     $frg->next =& $anchor;
-    $anchor->prev->next =& $frg;
+    $frg->prev->next =& $frg;
     $anchor->prev =& $frg;
-    if ($this->first->id === $anchor->id) {
+    if ($this->first === $anchor) {
       $this->first =& $frg;
     }
   }

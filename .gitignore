@@ -5,3 +5,4 @@ composer.lock
 PUBLISH_MEMO.md
 examples/out/
 .phpdoc/
+test-config.json

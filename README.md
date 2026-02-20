@@ -41,10 +41,81 @@ $session->start_main('./output.pdf');
 ?>
 ```
 
+## API概要
+
+### Session クラスの主要メソッド
+
+| メソッド | 説明 |
+| :--- | :--- |
+| `set_output_as_file($file)` | PDFをファイルに出力 |
+| `set_output_as_resource($fp)` | PDFをストリームリソースに出力 |
+| `set_output_as_variable(&$var)` | PDFを変数に出力 |
+| `set_output_as_directory($dir, $prefix, $suffix)` | PDFをディレクトリに連番で出力 |
+| `set_message_func($func)` | メッセージコールバックを設定 |
+| `set_progress_func($func)` | 進捗コールバックを設定 |
+| `set_resolver_func($func)` | リソース解決コールバックを設定 |
+| `property($name, $value)` | プロパティを設定 |
+| `start_main($uri, $opts)` | メイン文書の送信を開始 |
+| `end_main()` | メイン文書の送信を完了 |
+| `start_resource($uri, $opts)` | リソースの送信を開始 |
+| `end_resource()` | リソースの送信を完了 |
+| `transcode($uri)` | サーバー側リソースを変換 |
+| `set_continuous($continuous)` | 連続モードの設定 |
+| `join()` | 結果の結合 |
+| `reset()` | セッションのリセット |
+| `close()` | セッションのクローズ |
+
+## テストの実行方法
+
+テストにはCopper PDFサーバーへの接続が必要な統合テストと、接続不要なユーティリティ単体テストがあります。
+
+1. `test-config.json` を作成:
+```json
+{
+  "host": "localhost",
+  "port": 8099,
+  "user": "user",
+  "password": "kappa"
+}
+```
+
+2. PHPUnit でテストを実行:
+```bash
+./vendor/bin/phpunit
+```
+
+サーバーが起動していない場合、統合テストは自動的にスキップされ、`HelpersTest` は単体で実行されます。
+
+Ant から実行する場合:
+
+```bash
+ant test
+```
+
 ## ドキュメント
 
 - [APIドキュメント](https://mimidesunya.github.io/cti.php/)
 - [オンラインマニュアル](http://dl.cssj.jp/docs/copper/3.0/html/3422_ctip2_php.html)
+
+### ドキュメント生成
+
+phpDocumentorを使用してAPIドキュメントを生成できます:
+
+```bash
+./vendor/bin/phpdoc
+```
+
+または Ant を使用:
+
+```bash
+ant doc
+```
+
+Ant で配布アーカイブを作る場合:
+
+```bash
+ant dist
+```
 
 ## ライセンス
 
