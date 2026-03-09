@@ -1,5 +1,5 @@
 {
-    "name": "mimidesunya/cti.php",
+    "name": "zamasoft/cti-php",
     "description": "CTI Driver for PHP - Connect to Copper PDF document conversion server",
     "type": "library",
     "license": "Apache-2.0",
@@ -10,7 +10,7 @@
         "document",
         "conversion"
     ],
-    "homepage": "https://github.com/mimidesunya/cti.php",
+    "homepage": "https://github.com/zamasoftnet/cti.php",
     "authors": [
         {
             "name": "Zamasoft",
