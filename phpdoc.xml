@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpdocumentor configVersion="3">
-    <version number="3.0.0">
+    <title>CTI PHP Driver</title>
+    <paths>
+        <output>build/apidoc</output>
+    </paths>
+    <version number="latest">
         <api>
-            <default-package-name>driver</default-package-name>
+            <source dsn=".">
+                <path>src</path>
+            </source>
+            <ignore hidden="true">
+                <path>vendor</path>
+                <path>tests</path>
+            </ignore>
+            <extensions>
+                <extension>php</extension>
+            </extensions>
+            <encoding>UTF-8</encoding>
+            <output>api</output>
         </api>
     </version>
 </phpdocumentor>

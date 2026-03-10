@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Generate API docs
+        run: vendor/bin/phpdoc run -c phpdoc.xml || true
+
+      - name: Create dist
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          DIRNAME="cti-php-${VERSION}"
+          STAGEDIR="build/${DIRNAME}"
+          mkdir -p "${STAGEDIR}"
+          sed "s/@version@/${VERSION}/g" README.md > "${STAGEDIR}/README.md"
+          cp composer.json "${STAGEDIR}/"
+          cp LICENSE "${STAGEDIR}/" 2>/dev/null || true
+          cp composer.lock "${STAGEDIR}/" 2>/dev/null || true
+          cp -r src examples tests "${STAGEDIR}/"
+          cp -r build/apidoc "${STAGEDIR}/apidoc" 2>/dev/null || true
+          cd build
+          zip -r "${DIRNAME}.zip" "${DIRNAME}"
+          tar czf "${DIRNAME}.tar.gz" "${DIRNAME}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/cti-php-*.zip
+            build/cti-php-*.tar.gz

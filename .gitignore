@@ -6,3 +6,7 @@ PUBLISH_MEMO.md
 examples/out/
 .phpdoc/
 test-config.json
+
+# PHPUnit
+.phpunit.result.cache
+tests/out/

@@ -405,9 +405,9 @@ class Session {
       throw new \Exception(__FUNCTION__.": The session is already closed.");
     }
     cti_ctip_req_reset($this->fp);
-    unset($this->progressFunc);
-    unset($this->messageFunc);
-    unset($this->resolverFunc);
+    $this->progressFunc = null;
+    $this->messageFunc = null;
+    $this->resolverFunc = null;
     $this->results = new SingleResult(new StreamBuilder());
     $this->state = 1;
   }
