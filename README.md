@@ -4,6 +4,10 @@
 
 [Copper PDF](https://copper-pdf.com/) 文書変換サーバーに接続するためのPHPドライバです。
 
+## API ドキュメント
+
+- **オンライン**: https://zamasoftnet.github.io/cti.php/
+
 ## インストール
 
 ### Composer（推奨）
