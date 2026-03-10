@@ -5,7 +5,7 @@
             <title>CTI PHP Driver</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="./">
+    <base href="../">
     <link rel="icon" href="images/favicon.ico"/>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/base.css">
@@ -107,10 +107,13 @@
 </aside>
 
             <div class="phpdocumentor-column -nine phpdocumentor-content">
-                                        <section>
-        <h2>Documentation</h2>
+                                <section>
+                                        <ul class="phpdocumentor-breadcrumbs">
+    </ul>
 
-        
+    <article class="phpdocumentor-element -namespace">
+        <h2 class="phpdocumentor-content__title">API Documentation</h2>
+
         
 <h3 id="toc">
     Table of Contents
@@ -118,15 +121,6 @@
 
 </h3>
 
-<h4 id="packages">
-    Packages
-    <a href="namespaces/default.html#packages" class="headerlink"><i class="fas fa-link"></i></a>
-
-</h4>
-<dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -package"><a href="packages/Application.html"><abbr title="\Application">Application</abbr></a></dt>
-            <dt class="phpdocumentor-table-of-contents__entry -package"><a href="packages/CTI.html"><abbr title="\CTI">CTI</abbr></a></dt>
-    </dl>
 
 <h4 id="namespaces">
     Namespaces
@@ -3410,7 +3404,192 @@ CTI_CTIP_FRG_MEM_SIZEとは無関係にディスクに書き込まれます。</
 </article>
             </section>
 
+        <div class="phpdocumentor-modal" id="source-view">
+    <div class="phpdocumentor-modal-bg" data-exit-button></div>
+    <div class="phpdocumentor-modal-container">
+        <div class="phpdocumentor-modal-content">
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="" class="language-php line-numbers linkable-line-numbers"></pre>
+        </div>
+        <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
+    </div>
+</div>
+
+    <script type="text/javascript">
+        (function () {
+            function loadExternalCodeSnippet(el, url, line) {
+                Array.prototype.slice.call(el.querySelectorAll('pre[data-src]')).forEach((pre) => {
+                    const src = url || pre.getAttribute('data-src').replace(/\\/g, '/');
+                    const language = 'php';
+
+                    const code = document.createElement('code');
+                    code.className = 'language-' + language;
+                    pre.textContent = '';
+                    pre.setAttribute('data-line', line)
+                    code.textContent = 'Loading…';
+                    pre.appendChild(code);
+
+                    var xhr = new XMLHttpRequest();
+
+                    xhr.open('GET', src, true);
+
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) {
+                            return;
+                        }
+
+                        if (xhr.status < 400 && xhr.responseText) {
+                            code.textContent = xhr.responseText;
+                            Prism.highlightElement(code);
+                            d=document.getElementsByClassName("line-numbers");
+                            d[0].scrollTop = d[0].children[1].offsetTop;
+                            return;
+                        }
+
+                        if (xhr.status === 404) {
+                            code.textContent = '✖ Error: File could not be found';
+                            return;
+                        }
+
+                        if (xhr.status >= 400) {
+                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                            return;
+                        }
+
+                        code.textContent = '✖ Error: An unknown error occurred';
+                    };
+
+                    xhr.send(null);
+                });
+            }
+
+            const modalButtons = document.querySelectorAll("[data-modal]");
+            const openedAsLocalFile = window.location.protocol === 'file:';
+            if (modalButtons.length > 0 && openedAsLocalFile) {
+                console.warn(
+                    'Viewing the source code is unavailable because you are opening this page from the file:// scheme; ' +
+                    'browsers block XHR requests when a page is opened this way'
+                );
+            }
+
+            modalButtons.forEach(function (trigger) {
+                if (openedAsLocalFile) {
+                    trigger.setAttribute("hidden", "hidden");
+                }
+
+                trigger.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    const modal = document.getElementById(trigger.dataset.modal);
+                    if (!modal) {
+                        console.error(`Modal with id "${trigger.dataset.modal}" could not be found`);
+                        return;
+                    }
+                    modal.classList.add("phpdocumentor-modal__open");
+
+                    loadExternalCodeSnippet(modal, trigger.dataset.src || null, trigger.dataset.line)
+                    const exits = modal.querySelectorAll("[data-exit-button]");
+                    exits.forEach(function (exit) {
+                        exit.addEventListener("click", function (event) {
+                            event.preventDefault();
+                            modal.classList.remove("phpdocumentor-modal__open");
+                        });
+                    });
+                });
+            });
+        })();
+    </script>
+
+    </article>
+                                </section>
+                <section class="phpdocumentor-on-this-page__sidebar">
+                            
+    <section class="phpdocumentor-on-this-page__content">
+        <strong class="phpdocumentor-on-this-page__title">On this page</strong>
+
+        <ul class="phpdocumentor-list -clean">
+            <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                                                                                                                                                <li><a href="namespaces/default.html#toc-constants">Constants</a></li>
+                                                            <li><a href="namespaces/default.html#toc-functions">Functions</a></li>
+                                    </ul>
+            </li>
+
+                            <li class="phpdocumentor-on-this-page-section__title">Constants</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_BUFFER_SIZE">CTI_BUFFER_SIZE</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_FRG_MEM_SIZE">CTI_CTIP_FRG_MEM_SIZE</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_ON_MEMORY">CTI_CTIP_ON_MEMORY</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_ABORT">CTI_CTIP_REQ_ABORT</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_CLIENT_RESOURCE">CTI_CTIP_REQ_CLIENT_RESOURCE</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_CLOSE">CTI_CTIP_REQ_CLOSE</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_CONTINUOUS">CTI_CTIP_REQ_CONTINUOUS</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_DATA">CTI_CTIP_REQ_DATA</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_EOF">CTI_CTIP_REQ_EOF</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_JOIN">CTI_CTIP_REQ_JOIN</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_MISSING_RESOURCE">CTI_CTIP_REQ_MISSING_RESOURCE</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_PROPERTY">CTI_CTIP_REQ_PROPERTY</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_RESET">CTI_CTIP_REQ_RESET</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_SERVER_INFO">CTI_CTIP_REQ_SERVER_INFO</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_SERVER_MAIN">CTI_CTIP_REQ_SERVER_MAIN</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_START_MAIN">CTI_CTIP_REQ_START_MAIN</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_START_RESOURCE">CTI_CTIP_REQ_START_RESOURCE</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_ABORT">CTI_CTIP_RES_ABORT</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_ADD_BLOCK">CTI_CTIP_RES_ADD_BLOCK</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_BLOCK_DATA">CTI_CTIP_RES_BLOCK_DATA</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_CLOSE_BLOCK">CTI_CTIP_RES_CLOSE_BLOCK</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_DATA">CTI_CTIP_RES_DATA</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_EOF">CTI_CTIP_RES_EOF</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_INSERT_BLOCK">CTI_CTIP_RES_INSERT_BLOCK</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_MAIN_LENGTH">CTI_CTIP_RES_MAIN_LENGTH</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_MAIN_READ">CTI_CTIP_RES_MAIN_READ</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_MESSAGE">CTI_CTIP_RES_MESSAGE</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_NEXT">CTI_CTIP_RES_NEXT</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_RESOURCE_REQUEST">CTI_CTIP_RES_RESOURCE_REQUEST</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_RES_START_DATA">CTI_CTIP_RES_START_DATA</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_SEGMENT_SIZE">CTI_CTIP_SEGMENT_SIZE</a></li>
+                                            </ul>
+                </li>
+            
+                            <li class="phpdocumentor-on-this-page-section__title">Functions</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="namespaces/default.html#function__cti_read">_cti_read()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function__cti_write">_cti_write()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_connect">cti_ctip_connect()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_abort">cti_ctip_req_abort()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_client_resource">cti_ctip_req_client_resource()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_close">cti_ctip_req_close()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_continuous">cti_ctip_req_continuous()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_eof">cti_ctip_req_eof()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_join">cti_ctip_req_join()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_missing_resource">cti_ctip_req_missing_resource()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_property">cti_ctip_req_property()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_reset">cti_ctip_req_reset()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_resource">cti_ctip_req_resource()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_server_info">cti_ctip_req_server_info()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_server_main">cti_ctip_req_server_main()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_start_main">cti_ctip_req_start_main()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_req_write">cti_ctip_req_write()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_ctip_res_next">cti_ctip_res_next()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_get_driver">cti_get_driver()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_get_session">cti_get_session()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_utils_read_byte">cti_utils_read_byte()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_utils_read_bytes">cti_utils_read_bytes()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_utils_read_int">cti_utils_read_int()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_utils_read_long">cti_utils_read_long()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_utils_read_short">cti_utils_read_short()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_utils_write_byte">cti_utils_write_byte()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_utils_write_bytes">cti_utils_write_bytes()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_utils_write_int">cti_utils_write_int()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_utils_write_long">cti_utils_write_long()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_cti_utils_write_short">cti_utils_write_short()</a></li>
+                                            </ul>
+                </li>
+                    </ul>
     </section>
+
+                </section>
                             </div>
             <section data-search-results class="phpdocumentor-search-results phpdocumentor-search-results--hidden">
     <section class="phpdocumentor-search-results__dialog">
@@ -3424,7 +3603,7 @@ CTI_CTIP_FRG_MEM_SIZEとは無関係にディスクに書き込まれます。</
     </section>
 </section>
         </div>
-        <a href="index.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="namespaces/default.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
