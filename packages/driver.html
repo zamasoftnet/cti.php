@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-            <title>CTI PHP Driver</title>
+            <title>CTI Driver for PHP</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="../">
@@ -25,7 +25,7 @@
     </head>
 <body id="top">
     <header class="phpdocumentor-header phpdocumentor-section">
-    <h1 class="phpdocumentor-title"><a href="" class="phpdocumentor-title__link">CTI PHP Driver</a></h1>
+    <h1 class="phpdocumentor-title"><a href="" class="phpdocumentor-title__link">CTI Driver for PHP</a></h1>
     <input class="phpdocumentor-header__menu-button" type="checkbox" id="menu-button" name="menu-button" />
     <label class="phpdocumentor-header__menu-icon" for="menu-button">
         <i class="fas fa-bars"></i>
@@ -74,22 +74,12 @@
                 <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
-    <a href="packages/Application.html" class="">Application</a>
+    <a href="packages/driver.html" class="-active">driver</a>
 </h4>
 
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/CTI.html" class="">CTI</a>
 </h4>
-    <ul class="phpdocumentor-list">
-                    <li>
-                <a href="packages/CTI-CTIP2.html" class="-active">CTIP2</a>
-                
-            </li>
-                    <li>
-                <a href="packages/CTI-Helpers.html" class="">Helpers</a>
-                
-            </li>
-            </ul>
 
                         </section>
             
@@ -109,103 +99,130 @@
             <div class="phpdocumentor-column -nine phpdocumentor-content">
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
-            <li class="phpdocumentor-breadcrumb"><a href="packages/CTI.html">CTI</a></li>
     </ul>
 
     <article class="phpdocumentor-element -package">
-        <h2 class="phpdocumentor-content__title">CTIP2</h2>
+        <h2 class="phpdocumentor-content__title">driver</h2>
 
         
 <h3 id="toc">
     Table of Contents
-    <a href="packages/CTI-CTIP2.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="packages/driver.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
 
 
+    <h4 id="toc-interfaces">
+        Interfaces
+        <a href="packages/driver.html#toc-interfaces" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <dl class="phpdocumentor-table-of-contents">
+                    <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/CTI-Builder-Builder.html"><abbr title="\CTI\Builder\Builder">Builder</abbr></a></dt><dd>ビルダーインターフェースです。</dd>            <dt class="phpdocumentor-table-of-contents__entry -interface"><a href="classes/CTI-Results-Results.html"><abbr title="\CTI\Results\Results">Results</abbr></a></dt><dd>結果インターフェースです。</dd>    </dl>
+
+    <h4 id="toc-classes">
+        Classes
+        <a href="packages/driver.html#toc-classes" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <dl class="phpdocumentor-table-of-contents">
+                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/CTI-Builder-FileBuilder.html"><abbr title="\CTI\Builder\FileBuilder">FileBuilder</abbr></a></dt><dd>ファイルに出力するビルダーです。</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/CTI-Builder-Fragment.html"><abbr title="\CTI\Builder\Fragment">Fragment</abbr></a></dt><dd>フラグメントを表すクラスです。</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/CTI-Builder-NullBuilder.html"><abbr title="\CTI\Builder\NullBuilder">NullBuilder</abbr></a></dt><dd>何も出力しないビルダーです。</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/CTI-Builder-StreamBuilder.html"><abbr title="\CTI\Builder\StreamBuilder">StreamBuilder</abbr></a></dt><dd>ストリームに出力するビルダーです。</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/CTI-Driver.html"><abbr title="\CTI\Driver">Driver</abbr></a></dt><dd>CTIドライバです。</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/CTI-ResourceOutput.html"><abbr title="\CTI\ResourceOutput">ResourceOutput</abbr></a></dt><dd>リソース出力クラスです。</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/CTI-Results-DirectoryResults.html"><abbr title="\CTI\Results\DirectoryResults">DirectoryResults</abbr></a></dt><dd>ディレクトリに複数の結果を出力するResultsの実装です。</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/CTI-Results-SingleResult.html"><abbr title="\CTI\Results\SingleResult">SingleResult</abbr></a></dt><dd>単一の結果を返すResultsの実装です。</dd>    </dl>
 
 
 
 
-<h4 id="toc-constants">
-    Constants
-    <a href="packages/CTI-CTIP2.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+
+
+<h4 id="toc-functions">
+    Functions
+    <a href="packages/driver.html#toc-functions" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
-    <a class="" href="namespaces/default.html#constant_CTI_CTIP_REQ_PROPERTY">CTI_CTIP_REQ_PROPERTY</a>
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/cti-builder.html#function__cti_output">_cti_output()</a>
     <span>
-        &nbsp;= 0x1                            </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>CTIP2の低レベルの部分を扱います。</dd>
+<dd>標準出力、ストリーム、変数のいずれかに出力します。</dd>
 
     </dl>
 
-
-
-
-
         
-    <section class="phpdocumentor-constants">
-        <h3 class="phpdocumentor-elements__header" id="constants">
-            Constants
-            <a href="packages/CTI-CTIP2.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+            <section class="phpdocumentor-functions">
+        <h3 class="phpdocumentor-elements__header" id="functions">
+            Functions
+            <a href="packages/driver.html#functions" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
-                    <article class="phpdocumentor-element -constant -public ">
-    <h4 class="phpdocumentor-element__name" id="constant_CTI_CTIP_REQ_PROPERTY">
-        CTI_CTIP_REQ_PROPERTY
-        <a href="namespaces/default.html#constant_CTI_CTIP_REQ_PROPERTY" class="headerlink"><i class="fas fa-link"></i></a>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function__cti_output">
+        _cti_output()
+        <a href="namespaces/cti-builder.html#function__cti_output" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
-
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="src/CTIP2.php"><a href="files/src-ctip2.html"><abbr title="src/CTIP2.php">CTIP2.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="src/CTI/Builder/StreamBuilder.php"><a href="files/src-cti-builder-streambuilder.html"><abbr title="src/CTI/Builder/StreamBuilder.php">StreamBuilder.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">11</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">CTIP2の低レベルの部分を扱います。</p>
+        <p class="phpdocumentor-summary">標準出力、ストリーム、変数のいずれかに出力します。</p>
 
     
-    <code class="phpdocumentor-signature phpdocumentor-code ">
-    <span class="phpdocumentor-signature__visibility">public</span>
-        <span class="phpdocumentor-signature__type">mixed</span>
-    <span class="phpdocumentor-signature__name">CTI_CTIP_REQ_PROPERTY</span>
-    = <span class="phpdocumentor-signature__default-value">0x1</span>
-</code>
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">_cti_output</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$out</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__reference-operator">&amp;</span><span class="phpdocumentor-signature__argument__name">$buff</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
-
-        <section class="phpdocumentor-description"><p>通常、プログラマがこのパッケージを直接使う必要はありません。</p>
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$out</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>出力先</p>
 </section>
 
-    
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$buff</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>データ</p>
+</section>
+
+            </dd>
+            </dl>
+
     
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
         Tags
-        <a href="namespaces/default.html#constant_CTI_CTIP_REQ_PROPERTY#tags" class="headerlink"><i class="fas fa-link"></i></a>
+        <a href="namespaces/cti-builder.html#function__cti_output#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h5>
     <dl class="phpdocumentor-tag-list">
                                     <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">subpackage</span>
+                    <span class="phpdocumentor-tag__name">access</span>
                 </dt>
                 <dd class="phpdocumentor-tag-list__definition">
                                                                                 
-                                                 <section class="phpdocumentor-description"><p>CTIP2</p>
+                                                 <section class="phpdocumentor-description"><p>private</p>
 </section>
 
                                     </dd>
                                             </dl>
 
-        
-    </article>
+    
+</article>
             </section>
 
-        
         <div class="phpdocumentor-modal" id="source-view">
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
@@ -311,17 +328,19 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                                                                                    <li><a href="packages/CTI-CTIP2.html#toc-constants">Constants</a></li>
-                                                        </ul>
+                                                                                    <li><a href="packages/driver.html#toc-interfaces">Interfaces</a></li>
+                                                                <li><a href="packages/driver.html#toc-classes">Classes</a></li>
+                                                                                                                            <li><a href="packages/driver.html#toc-functions">Functions</a></li>
+                                    </ul>
             </li>
 
-                            <li class="phpdocumentor-on-this-page-section__title">Constants</li>
+            
+                            <li class="phpdocumentor-on-this-page-section__title">Functions</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="namespaces/default.html#constant_CTI_CTIP_REQ_PROPERTY">CTI_CTIP_REQ_PROPERTY</a></li>
+                                                    <li class=""><a href="namespaces/cti-builder.html#function__cti_output">_cti_output()</a></li>
                                             </ul>
                 </li>
-            
                     </ul>
     </section>
 
@@ -339,7 +358,7 @@
     </section>
 </section>
         </div>
-        <a href="packages/CTI-CTIP2.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="packages/driver.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
