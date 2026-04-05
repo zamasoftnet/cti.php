@@ -10,10 +10,31 @@
 
 ## インストール
 
-### Composer（推奨）
+### Composer（GitHub VCS / Packagist）
+
+GitHub リポジトリから直接インストールする場合は、先に VCS リポジトリを登録してください。
 
 ```bash
-composer require mimidesunya/cti.php
+composer config repositories.zamasoftnet-cti-php vcs https://github.com/zamasoftnet/cti.php
+composer require zamasoft/cti-php
+```
+
+Packagist に登録済みの環境では、`composer require zamasoft/cti-php` だけでもインストールできます。
+
+`composer.json` の `repositories` に直接追加する場合の例:
+
+```json
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/zamasoftnet/cti.php"
+    }
+  ],
+  "require": {
+    "zamasoft/cti-php": "*"
+  }
+}
 ```
 
 ### 手動インストール
@@ -98,7 +119,7 @@ ant test
 
 ## ドキュメント
 
-- [APIドキュメント](https://mimidesunya.github.io/cti.php/)
+- [APIドキュメント](https://zamasoftnet.github.io/cti.php/)
 - [オンラインマニュアル](http://dl.cssj.jp/docs/copper/3.0/html/3422_ctip2_php.html)
 
 ### ドキュメント生成

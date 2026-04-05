@@ -1,0 +1,73 @@
+name: Ensure Packagist GitHub Hook
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ensure-hook:
+    runs-on: ubuntu-latest
+    env:
+      PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
+      PACKAGIST_API_TOKEN: ${{ secrets.PACKAGIST_API_TOKEN }}
+      GH_ADMIN_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
+      REPOSITORY: ${{ github.repository }}
+    steps:
+      - name: Validate secrets
+        run: |
+          if [ -z "$PACKAGIST_USERNAME" ]; then
+            echo "PACKAGIST_USERNAME is required."
+            exit 1
+          fi
+          if [ -z "$PACKAGIST_API_TOKEN" ]; then
+            echo "PACKAGIST_API_TOKEN is required."
+            exit 1
+          fi
+          if [ -z "$GH_ADMIN_TOKEN" ]; then
+            echo "GH_ADMIN_TOKEN is required."
+            exit 1
+          fi
+
+      - name: Create or update Packagist webhook
+        run: |
+          set -eu
+
+          hook_url="https://packagist.org/api/github?username=${PACKAGIST_USERNAME}"
+          api_url="https://api.github.com/repos/${REPOSITORY}/hooks"
+
+          payload="$(jq -n \
+            --arg url "$hook_url" \
+            --arg secret "$PACKAGIST_API_TOKEN" \
+            '{
+              name: "web",
+              active: true,
+              events: ["push"],
+              config: {
+                url: $url,
+                content_type: "json",
+                secret: $secret,
+                insecure_ssl: "0"
+              }
+            }')"
+
+          existing_id="$(curl -fsSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_ADMIN_TOKEN}" \
+            "$api_url" | jq -r --arg url "$hook_url" '.[] | select(.config.url == $url) | .id' | head -n 1)"
+
+          if [ -n "$existing_id" ] && [ "$existing_id" != "null" ]; then
+            curl -fsSL -X PATCH \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${GH_ADMIN_TOKEN}" \
+              -H "Content-Type: application/json" \
+              "$api_url/$existing_id" \
+              -d "$payload" > /dev/null
+            echo "Updated existing Packagist webhook: $existing_id"
+          else
+            curl -fsSL -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${GH_ADMIN_TOKEN}" \
+              -H "Content-Type: application/json" \
+              "$api_url" \
+              -d "$payload" > /dev/null
+            echo "Created Packagist webhook."
+          fi
