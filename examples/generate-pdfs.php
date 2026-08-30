@@ -3,7 +3,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $SERVER_URI = 'ctip://cti.li/';
 $SOURCE_URI = 'http://cti.li/';
-$OUTPUT_DIR = __DIR__ . '/../../test-output';
+$OUTPUT_DIR = __DIR__ . '/../build/test-output';
 
 if (!is_dir($OUTPUT_DIR)) {
     mkdir($OUTPUT_DIR, 0777, true);

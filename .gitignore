@@ -10,3 +10,6 @@ test-config.json
 # PHPUnit
 .phpunit.result.cache
 tests/out/
+# AIエージェント用ローカルガイド（git管理外）
+AGENTS.md
+CLAUDE.md
