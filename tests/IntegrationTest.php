@@ -9,6 +9,10 @@ class IntegrationTest extends TestCase
 {
     private static $config = null;
     private static $serverAvailable = false;
+    /** 解決済みの接続先 URI(スキーム込み)。環境変数 > test-config.json */
+    private static $serverUri = null;
+    /** 接続試験マトリクスの共通契約: CTI_EXPECT_REJECT=1 で拒否試験だけを走らせる */
+    private static $expectReject = false;
 
     private $session = null;
 
@@ -25,13 +29,33 @@ class IntegrationTest extends TestCase
             self::$config = json_decode($json, true);
         }
 
-        if (self::$config !== null) {
-            $host = self::$config['host'] ?? 'localhost';
-            $port = self::$config['port'] ?? 8099;
-            $fp = @fsockopen($host, $port, $errno, $errstr, 2);
-            if ($fp !== false) {
-                fclose($fp);
-                self::$serverAvailable = true;
+        // 接続試験マトリクスの共通契約(copperpdf4/docs/design/2026-09-20-cti-driver-tls-test-matrix-design.md §2):
+        // CTI_SERVER_URI(スキーム込み) > test-config.json の host/port。PHP 版には証明書の検証を省く指定が
+        // 無いので CTI_TLS_INSECURE=1 は設定エラー
+        $envUri = getenv('CTI_SERVER_URI');
+        if ($envUri !== false && $envUri !== '') {
+            self::$config = [
+                'user' => getenv('CTI_TEST_USER') ?: (self::$config['user'] ?? 'user'),
+                'password' => getenv('CTI_TEST_PASSWORD') ?: (self::$config['password'] ?? 'kappa'),
+            ];
+            self::$serverUri = $envUri;
+        } elseif (self::$config !== null) {
+            self::$serverUri = 'ctip://' . (self::$config['host'] ?? 'localhost') . ':' . (self::$config['port'] ?? 8099) . '/';
+        }
+        if (getenv('CTI_TLS_INSECURE') === '1') {
+            throw new \RuntimeException('CTI_TLS_INSECURE は PHP 版では使えません(証明書を検証しない指定がありません)');
+        }
+        self::$expectReject = getenv('CTI_EXPECT_REJECT') === '1';
+
+        if (self::$serverUri !== null) {
+            if (preg_match('#^ctips?://([^:/]+)(?::([0-9]+))?/?$#', self::$serverUri, $m)) {
+                $host = $m[1];
+                $port = isset($m[2]) && $m[2] !== '' ? (int)$m[2] : 8099;
+                $fp = @fsockopen($host, $port, $errno, $errstr, 2);
+                if ($fp !== false) {
+                    fclose($fp);
+                    self::$serverAvailable = true;
+                }
             }
         }
     }
@@ -42,9 +66,11 @@ class IntegrationTest extends TestCase
             $this->markTestSkipped('test-config.json が見つかりません。');
         }
         if (!self::$serverAvailable) {
-            $host = self::$config['host'] ?? 'localhost';
-            $port = self::$config['port'] ?? 8099;
-            $this->markTestSkipped("Copper PDF サーバー ({$host}:{$port}) に接続できません。");
+            // 到達不能は失敗(黙って skip にしない。2026-09-20、マトリクスの契約)
+            $this->fail('Copper PDF サーバー (' . self::$serverUri . ') に接続できません。');
+        }
+        if (self::$expectReject && $this->name() !== 'testCertificateRejection') {
+            $this->markTestSkipped('CTI_EXPECT_REJECT=1: 拒否試験だけを走らせます。');
         }
 
         @mkdir(__DIR__ . '/out', 0777, true);
@@ -62,17 +88,11 @@ class IntegrationTest extends TestCase
         }
     }
 
-    private function createSession(): \CTI\Session
+    private function createSession(?string $user = null, ?string $password = null): \CTI\Session
     {
-        $host = self::$config['host'] ?? 'localhost';
-        $port = self::$config['port'] ?? 8099;
-        $user = self::$config['user'] ?? 'user';
-        $password = self::$config['password'] ?? 'kappa';
-
-        $uri = "ctip://{$host}:{$port}/";
-        $this->session = cti_get_session($uri, [
-            'user' => $user,
-            'password' => $password
+        $this->session = cti_get_session(self::$serverUri, [
+            'user' => $user ?? (self::$config['user'] ?? 'user'),
+            'password' => $password ?? (self::$config['password'] ?? 'kappa')
         ]);
         return $this->session;
     }
@@ -229,14 +249,36 @@ class IntegrationTest extends TestCase
 
     public function testAuthenticationFailure(): void
     {
-        $host = self::$config['host'] ?? 'localhost';
-        $port = self::$config['port'] ?? 8099;
-        $uri = "ctip://{$host}:{$port}/";
-
         $this->expectException(\Exception::class);
-        $session = cti_get_session($uri, [
-            'user' => 'invalid-user',
-            'password' => 'invalid-password'
-        ]);
+        $this->createSession('invalid-user', 'invalid-password');
+    }
+
+    /**
+     * 拒否試験(tls-reject / tls-badname)。CTI_EXPECT_REJECT=1 のときだけ走り、接続が証明書の検証で
+     * 拒否されることを確かめる。変換まで進む・接続拒否・認証失敗は成功に数えない。
+     * PHP の fsockopen('tls://…') は失敗を警告+false で返し、ドライバは例外にする。
+     */
+    public function testCertificateRejection(): void
+    {
+        if (!self::$expectReject) {
+            $this->markTestSkipped('CTI_EXPECT_REJECT=1 のときだけ走ります。');
+        }
+        $message = null;
+        set_error_handler(function ($errno, $errstr) use (&$message) {
+            $message .= $errstr . ' ';
+            return true;
+        });
+        try {
+            $this->createSession();
+            $this->fail('証明書の検証で拒否されなかった(接続できてしまった)');
+        } catch (\PHPUnit\Framework\AssertionFailedError $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            $message .= $e->getMessage();
+        } finally {
+            restore_error_handler();
+        }
+        fwrite(STDOUT, 'CTI-MATRIX reject: ' . trim($message) . PHP_EOL);
+        $this->assertMatchesRegularExpression('/certificate verify failed|did not match/i', $message);
     }
 }
