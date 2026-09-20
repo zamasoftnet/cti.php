@@ -247,6 +247,115 @@ class IntegrationTest extends TestCase
         self::assertPdf($out2);
     }
 
+    // ---- プロトコルの周辺機能(2026-09-20、接続試験マトリクスの拡張)。
+    // 主要機能の 8 項目に、メッセージ受信・中断・ストリーム出力・連続結合を足す。7 本のドライバで同じ 4 項目。
+
+    private const MISSING_CSS_HTML = '<html><head><link rel="stylesheet" href="missing.css"></head><body><p>message test</p></body></html>';
+
+    private static function bigHtml(int $paragraphs): string
+    {
+        $html = '<html><body>';
+        for ($i = 0; $i < $paragraphs; $i++) {
+            $html .= '<p>paragraph ' . $i . ' ' . str_repeat('x', 300) . '</p>';
+        }
+        return $html . '</body></html>';
+    }
+
+    private function transcodeString(\CTI\Session $session, string $html): void
+    {
+        $session->start_main('.', ['mimeType' => 'text/html']);
+        echo $html;
+        $session->end_main();
+    }
+
+    /** 存在しないスタイルシートを参照する文書を変換し、サーバーのエラーメッセージがコールバックに届く(引数にその名前が入る) */
+    public function testMessageCallback(): void
+    {
+        $messages = [];
+        $session = $this->createSession();
+        $session->set_message_func(function ($code, $message, $args) use (&$messages) {
+            $messages[] = [$code, $message, $args];
+        });
+        $buf = '';
+        $session->set_output_as_variable($buf);
+        $this->transcodeString($session, self::MISSING_CSS_HTML);
+        $this->assertSame('%PDF', substr($buf, 0, 4));
+        $hits = array_filter($messages, function ($m) {
+            return in_array('missing.css', (array)$m[2], true) || strpos((string)$m[1], 'missing.css') !== false;
+        });
+        $this->assertNotEmpty($hits, 'missing.css についてのメッセージが届いていない: ' . json_encode($messages, JSON_UNESCAPED_UNICODE));
+        foreach ($hits as $m) {
+            $this->assertGreaterThan(0, (int)$m[0]);
+        }
+    }
+
+    /** 本文の送信中に abort を送ると変換が止まり(完全な出力が返らない)、reset 後に同じセッションで再変換できる。
+     *  サーバーが中断をどのメッセージで報告するかは版で違うので見ない */
+    public function testAbort(): void
+    {
+        $html = self::bigHtml(3000);
+        $session = $this->createSession();
+        $full = '';
+        $session->set_output_as_variable($full);
+        $this->transcodeString($session, $html);
+        $this->assertSame('%PDF', substr($full, 0, 4));
+        $session->reset();
+
+        $aborted = '';
+        $session->set_output_as_variable($aborted);
+        $half = intdiv(strlen($html), 2);
+        $session->start_main('.', ['mimeType' => 'text/html']);
+        echo substr($html, 0, $half);
+        $session->abort(1);
+        echo substr($html, $half);
+        $session->end_main();
+        $this->assertLessThan(strlen($full), strlen($aborted), '中断したのに完全な出力が返った');
+        $session->reset();
+
+        $again = '';
+        $session->set_output_as_variable($again);
+        $this->transcodeString($session, '<p>after abort</p>');
+        $this->assertSame('%PDF', substr($again, 0, 4), '中断後のセッションで再変換できない');
+    }
+
+    /** set_output_as_variable(StreamBuilder)で結果が変数に書かれる */
+    public function testOutputStream(): void
+    {
+        $session = $this->createSession();
+        $buf = '';
+        $session->set_output_as_variable($buf);
+        $session->start_resource('test.css');
+        echo file_get_contents(self::dataPath('test.css'));
+        $session->end_resource();
+        $session->start_main('test.html', ['mimeType' => 'text/html']);
+        echo file_get_contents(self::dataPath('test.html'));
+        $session->end_main();
+        $this->assertSame('%PDF', substr($buf, 0, 4));
+        $this->assertGreaterThan(100, strlen($buf));
+    }
+
+    /** 連続モードで 2 文書を変換して join すると 1 つの PDF になる(1 文書より大きい) */
+    public function testContinuousJoin(): void
+    {
+        $session = $this->createSession();
+        $single = '';
+        $session->set_output_as_variable($single);
+        $this->transcodeString($session, '<p>doc 0</p>');
+        $session->close();
+        $this->session = null;
+
+        $session = $this->createSession();
+        $joined = '';
+        $session->set_output_as_variable($joined);
+        $session->set_continuous(true);
+        for ($i = 0; $i < 2; $i++) {
+            $this->transcodeString($session, '<p>doc ' . $i . '</p>');
+        }
+        $session->join();
+        $this->assertSame('%PDF', substr($joined, 0, 4));
+        $this->assertGreaterThan(strlen($single), strlen($joined), '結合した出力が 1 文書より大きくない');
+    }
+
     public function testAuthenticationFailure(): void
     {
         $this->expectException(\Exception::class);
