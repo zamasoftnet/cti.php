@@ -11,6 +11,7 @@ class IntegrationTest extends TestCase
     private static $serverAvailable = false;
     /** 解決済みの接続先 URI(スキーム込み)。環境変数 > test-config.json */
     private static $serverUri = null;
+    private static $insecure = false;
     /** 接続試験マトリクスの共通契約: CTI_EXPECT_REJECT=1 で拒否試験だけを走らせる */
     private static $expectReject = false;
 
@@ -30,8 +31,8 @@ class IntegrationTest extends TestCase
         }
 
         // 接続試験マトリクスの共通契約(copperpdf4/docs/design/2026-09-20-cti-driver-tls-test-matrix-design.md §2):
-        // CTI_SERVER_URI(スキーム込み) > test-config.json の host/port。PHP 版には証明書の検証を省く指定が
-        // 無いので CTI_TLS_INSECURE=1 は設定エラー
+        // CTI_SERVER_URI(スキーム込み) > test-config.json の host/port。CTI_TLS_INSECURE=1 で
+        // 'insecure' => true(証明書の検証を省く、2.2.1 以降)
         $envUri = getenv('CTI_SERVER_URI');
         if ($envUri !== false && $envUri !== '') {
             self::$config = [
@@ -42,9 +43,7 @@ class IntegrationTest extends TestCase
         } elseif (self::$config !== null) {
             self::$serverUri = 'ctip://' . (self::$config['host'] ?? 'localhost') . ':' . (self::$config['port'] ?? 8099) . '/';
         }
-        if (getenv('CTI_TLS_INSECURE') === '1') {
-            throw new \RuntimeException('CTI_TLS_INSECURE は PHP 版では使えません(証明書を検証しない指定がありません)');
-        }
+        self::$insecure = getenv('CTI_TLS_INSECURE') === '1';
         self::$expectReject = getenv('CTI_EXPECT_REJECT') === '1';
 
         if (self::$serverUri !== null) {
@@ -92,7 +91,8 @@ class IntegrationTest extends TestCase
     {
         $this->session = cti_get_session(self::$serverUri, [
             'user' => $user ?? (self::$config['user'] ?? 'user'),
-            'password' => $password ?? (self::$config['password'] ?? 'kappa')
+            'password' => $password ?? (self::$config['password'] ?? 'kappa'),
+            'insecure' => self::$insecure
         ]);
         return $this->session;
     }

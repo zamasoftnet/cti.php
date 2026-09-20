@@ -66,6 +66,20 @@ $session->start_main('./output.pdf');
 ?>
 ```
 
+## TLS 接続
+
+`ctips://` で接続すると、サーバー証明書を PHP(OpenSSL)の既定の認証局ストアで検証し、ホスト名も照合します。
+自己署名や独自の認証局の証明書は `openssl.cafile` などで認証局を追加してください。
+
+試験用に検証を省くには、オプションに `'insecure' => true` を渡します(2.2.1 以降。証明書もホスト名も
+確かめないので、本番では使わないでください)。
+
+```php
+$session = cti_get_session('ctips://localhost:8094/', [
+    'user' => 'user', 'password' => 'kappa', 'insecure' => true
+]);
+```
+
 ## API概要
 
 ### Session クラスの主要メソッド
@@ -151,6 +165,11 @@ Apache License Version 2.0 に基づいてライセンスされます。
 詳細は [LICENSE](LICENSE) ファイルを参照してください。
 
 ## 変更履歴
+
+### v2.2.1 (2026/9/20)
+- 試験用に証明書の検証を省くオプション `'insecure' => true` を追加(他言語版の Java `--insecure`、
+  .NET `?insecure=1`、Ruby/Perl/Python の `insecure` に相当)。接続は `fsockopen` から
+  `stream_socket_client` に変更(既定の検証動作は同じ)。
 
 ### v2.2.0 (2025/12/30)
 - Composer対応
