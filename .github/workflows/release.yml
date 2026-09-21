@@ -20,8 +20,15 @@ jobs:
       - name: Install dependencies
         run: composer install --no-interaction --prefer-dist
 
+      # composer で入る phpdoc + phpdoc.xml は、league/uri が新しいと相対 dsn(".")を
+      # 「base URI must be an absolute URI」で拒む(2026-09-21 の v2.2.1 で発覚。composer.lock を
+      # 追跡していないので CI では解決版が上がる)。docs.yml と同じ phar + CLI 指定に揃える。
       - name: Generate API docs
-        run: vendor/bin/phpdoc run -c phpdoc.xml || true
+        run: |
+          wget -q https://phpdoc.org/phpDocumentor.phar -O phpDocumentor.phar
+          chmod +x phpDocumentor.phar
+          mkdir -p build/apidoc
+          php phpDocumentor.phar             --title "CTI Driver for PHP"             --target "build/apidoc"             --directory "src/CTI"             --defaultpackagename "driver" || true
 
       - name: Create dist
         run: |
@@ -46,7 +53,10 @@ jobs:
             build/cti-php-*.zip
             build/cti-php-*.tar.gz
 
+      # 文書生成が失敗したときに空ディレクトリを配備しようとして workflow 全体が
+      # 落ちないようにする(生成物があるときだけ配備する)
       - name: Deploy API docs to GitHub Pages
+        if: hashFiles('build/apidoc/index.html') != ''
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
